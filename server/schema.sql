@@ -14,12 +14,12 @@ CREATE TABLE product (
 -- DROP TABLE IF EXISTS `styles`;
 
 CREATE TABLE styles (
-  id INTEGER PRIMARY KEY,
+  style_id INTEGER PRIMARY KEY,
   productId INTEGER,
   name VARCHAR(150),
   sale_price VARCHAR(10),
   original_price VARCHAR(10),
-  default_style INTEGER
+  "default?" INTEGER
 );
 
 -- DROP TABLE IF EXISTS `related products`;

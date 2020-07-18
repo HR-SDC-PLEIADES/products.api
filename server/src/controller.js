@@ -43,14 +43,26 @@ module.exports = {
   },
 
   // FIXME:
-  getProductStyles: function (req, res) {
-    // let productId = req.params.product_id;
-    // async () => {
-    //   const client = await pool.connect();
-    //   const queryStr = `SELECT * FROM styles WHERE productid=${productId}`;
-    //   const data = await client.query(queryStr);
-    //   res.status(200).json(data);
-    // };
+  getProductStyles: async function (req, res) {
+    let productId = req.params.product_id;
+    let returnObj = {
+      product_id: productId,
+    };
+    try {
+      const client = await pool.connect();
+      const queryStr = `SELECT style_id, name, original_price, sale_price, "default?" FROM styles WHERE productid=${productId}`;
+      const data = await client.query(queryStr);
+      let allStyles = data.rows;
+      for (let i = 0; i < allStyles.length; i++) {
+        const skusQueryStr = `SELECT size, quantity FROM skus WHERE styleId=${allStyles[i].style_id}`;
+        const skusData = await client.query(skusQueryStr);
+        allStyles[i].skus = skusData.rows;
+      }
+      returnObj.results = allStyles;
+      res.status(200).json(returnObj);
+    } catch (err) {
+      console.log(err);
+    }
   },
 
   getRelatedProducts: async function (req, res) {
