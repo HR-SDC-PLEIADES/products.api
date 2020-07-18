@@ -2,24 +2,21 @@ const pool = require('./pg');
 const Cursor = require('pg-cursor');
 
 module.exports = {
-  getAllProducts: function (req, res) {
-    async () => {
+  getAllProducts: async function (req, res) {
+    try {
       const client = await pool.connect();
       const queryStr = 'SELECT * FROM product';
-      const cursor = await client.query(new Cursor(query));
+      const cursor = await client.query(new Cursor(queryStr));
 
-      cursor.ready(10, (err, data) => {
+      cursor.read(10, (err, rows) => {
         console.log('we got the first 10 rows');
-        console.log(data);
-        res.status(200).json(data);
-
-        cursor.read(10, (err, data) => {
-          console.log('we have the next 10 rows');
-          console.log(data);
-          res.status(200).json(data);
-        });
+        console.log(rows);
+        res.status(200).json(rows);
       });
-    };
+    } catch (err) {
+      console.log(err);
+      res.sendStatus(500);
+    }
   },
 
   getProductInfo: async function (req, res) {
@@ -45,14 +42,15 @@ module.exports = {
     }
   },
 
+  // FIXME:
   getProductStyles: function (req, res) {
-    let productId = req.params.product_id;
-    async () => {
-      const client = await pool.connect();
-      const queryStr = `SELECT * FROM styles WHERE productid=${productId}`;
-      const data = await client.query(queryStr);
-      res.status(200).json(data);
-    };
+    // let productId = req.params.product_id;
+    // async () => {
+    //   const client = await pool.connect();
+    //   const queryStr = `SELECT * FROM styles WHERE productid=${productId}`;
+    //   const data = await client.query(queryStr);
+    //   res.status(200).json(data);
+    // };
   },
 
   getRelatedProducts: async function (req, res) {
