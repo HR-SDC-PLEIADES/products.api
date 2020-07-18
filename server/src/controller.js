@@ -55,13 +55,20 @@ module.exports = {
     };
   },
 
-  getRelatedProducts: function (req, res) {
+  getRelatedProducts: async function (req, res) {
     let productId = req.params.product_id;
-    async () => {
+    try {
       const client = await pool.connect();
-      const queryStr = `SELECT * FROM related_products WHERE current_product_id=${productId}`;
+      const queryStr = `SELECT related_product_id FROM related_products WHERE current_product_id=${productId}`;
       const data = await client.query(queryStr);
-      res.status(200).json(data);
-    };
+      let idObjects = data.rows;
+      let ids = idObjects.map((idObject) => {
+        return idObject.related_product_id;
+      });
+      res.status(200).json(ids);
+    } catch (err) {
+      console.log(err);
+      res.sendStatus(500);
+    }
   },
 };
