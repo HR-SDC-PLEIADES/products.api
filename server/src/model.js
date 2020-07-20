@@ -50,10 +50,17 @@ module.exports = {
       const queryStr = `SELECT style_id, name, original_price, sale_price, "default?" FROM styles WHERE productid=${productId}`;
       const data = await client.query(queryStr);
       let allStyles = data.rows;
+      let skusInfo;
       for (let i = 0; i < allStyles.length; i++) {
         const skusQueryStr = `SELECT size, quantity FROM skus WHERE styleId=${allStyles[i].style_id}`;
         const skusData = await client.query(skusQueryStr);
-        allStyles[i].skus = skusData.rows;
+        let skusInfo = skusData.rows;
+        console.log('skusInfo', skusInfo);
+        let skusObject = {};
+        let skusInfoTransformed = skusInfo.map((each) => {
+          skusObject[each.size] = each.quantity;
+        });
+        allStyles[i].skus = skusObject;
       }
       returnObj.results = allStyles;
       callback(null, returnObj);
