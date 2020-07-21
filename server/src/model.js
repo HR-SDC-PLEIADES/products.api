@@ -1,19 +1,13 @@
 const pool = require('./pg');
-const Cursor = require('pg-cursor');
 
 module.exports = {
-  getAllProductsModel: async function (callback) {
+  getAllProductsModel: async function (count, callback) {
     try {
       const client = await pool.connect();
-      const queryStr = 'SELECT * FROM product';
-      const cursor = await client.query(new Cursor(queryStr));
-      return cursor.read(10, (err, rows) => {
-        if (err) {
-          callback(err, null);
-        } else {
-          callback(null, rows);
-        }
-      });
+      const queryStr = `SELECT * FROM product WHERE id<=${count}`;
+      let data = await client.query(queryStr);
+      let productInfo = data.rows;
+      callback(null, productInfo);
     } catch (err) {
       console.log(err);
     }

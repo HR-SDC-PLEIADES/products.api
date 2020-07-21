@@ -2,7 +2,9 @@ const models = require('./model');
 
 module.exports = {
   getAllProducts: function (req, res) {
-    models.getAllProductsModel((err, allProducts) => {
+    let page = req.page || 1;
+    let count = req.count || page * 5;
+    models.getAllProductsModel(count, (err, allProducts) => {
       if (err) {
         res.sendStatus(500);
       } else {
