@@ -51,9 +51,10 @@ CREATE TABLE skus (
 -- DROP TABLE IF EXISTS `photos`;
 
 CREATE TABLE photos (
-  id INTEGER NULL PRIMARY KEY,
-  style_id_styles INTEGER,
-  thumbnail_url VARCHAR(150)
+  id INTEGER PRIMARY KEY,
+  styleId INTEGER,
+  url VARCHAR,
+  thumbnail_url VARCHAR
 );
 
 -- ---
