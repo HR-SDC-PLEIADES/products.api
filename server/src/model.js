@@ -34,7 +34,6 @@ module.exports = {
     }
   },
 
-  // FIXME:
   getProductStylesModel: async function (productId, callback) {
     let returnObj = {
       product_id: productId,
@@ -46,10 +45,13 @@ module.exports = {
       let allStyles = data.rows;
       let skusInfo;
       for (let i = 0; i < allStyles.length; i++) {
+        const photosQueryStr = `SELECT thumbnail_url FROM photos WHERE styleId=${allStyles[i].style_id}`;
+        const photosData = await client.query(photosQueryStr);
+        let photosUrls = photosData.rows;
+        allStyles[i].photos = photosUrls;
         const skusQueryStr = `SELECT size, quantity FROM skus WHERE styleId=${allStyles[i].style_id}`;
         const skusData = await client.query(skusQueryStr);
         let skusInfo = skusData.rows;
-        console.log('skusInfo', skusInfo);
         let skusObject = {};
         let skusInfoTransformed = skusInfo.map((each) => {
           skusObject[each.size] = each.quantity;
