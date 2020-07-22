@@ -2,12 +2,13 @@ const models = require('./model');
 
 module.exports = {
   getAllProducts: function (req, res) {
-    let page = req.page || 1;
-    let count = req.count || page * 5;
+    let page = req.query.page || 1;
+    let count = req.query.count || page * 5;
     models.getAllProductsModel(count, (err, allProducts) => {
       if (err) {
         res.sendStatus(500);
       } else {
+        console.log(allProducts);
         res.status(200).json(allProducts);
       }
     });
