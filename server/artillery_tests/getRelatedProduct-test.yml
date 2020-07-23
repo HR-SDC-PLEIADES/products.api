@@ -4,7 +4,7 @@ config:
     - duration: 5
       arrivalRate: 5
 scenarios:
-  - name: 'Product List Requests'
+  - name: 'Related Product Requests'
     flow:
       - get:
-          url: '/products/list'
+          url: '/products/{{$randomNumber(1, 1000011)}}/related'
