@@ -1,8 +1,8 @@
 config:
   target: 'http://localhost:3030'
   phases:
-    - duration: 5
-      arrivalRate: 5
+    - duration: 20
+      arrivalRate: 500
 scenarios:
   - name: 'Product Info Requests'
     flow:
