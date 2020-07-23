@@ -8,8 +8,10 @@ module.exports = {
       let data = await client.query(queryStr);
       let productInfo = data.rows;
       callback(null, productInfo);
+      client.release();
     } catch (err) {
       console.log(err);
+      callback(err, null);
     }
   },
 
@@ -29,6 +31,7 @@ module.exports = {
       } else {
         callback(err, null);
       }
+      client.release();
     } catch (err) {
       console.log(err);
     }
@@ -60,8 +63,10 @@ module.exports = {
       }
       returnObj.results = allStyles;
       callback(null, returnObj);
+      client.release();
     } catch (err) {
       console.log(err);
+      callback(err, null);
     }
   },
 
@@ -75,8 +80,10 @@ module.exports = {
         return idObject.related_product_id;
       });
       callback(null, ids);
+      client.release();
     } catch (err) {
       console.log(err);
+      callback(err, null);
     }
   },
 };
