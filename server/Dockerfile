@@ -1,9 +1,13 @@
-FROM postgres:alpine
+FROM node:12
 
-COPY *.sql /docker-entrypoint-initdb.d/
+WORKDIR /usr/src/app
 
-ADD schema.sql /docker-entrypoint-initdb.d
+COPY package*.json ./
 
-RUN chmod a+r /docker-entrypoint-initdb.d/*
+RUN npm install
 
-EXPOSE 5432
+COPY . .
+
+EXPOSE 3030
+
+CMD ["node", "src/index.js"]
