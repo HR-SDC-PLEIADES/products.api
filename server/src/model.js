@@ -11,6 +11,7 @@ module.exports = {
       client.release();
     } catch (err) {
       console.log(err);
+      client.release();
       callback(err, null);
     }
   },
@@ -24,6 +25,7 @@ module.exports = {
       const featureData = client.query(featureQueryStr);
       const promises = await Promise.all([data, featureData]);
       const [product, features] = promises;
+      client.release();
       if (product.rowCount > 0) {
         const productInfo = product.rows[0];
         productInfo.features = features.rows;
@@ -31,8 +33,8 @@ module.exports = {
       } else {
         callback(err, null);
       }
-      client.release();
     } catch (err) {
+      client.release();
       console.log(err);
     }
   },
@@ -62,10 +64,11 @@ module.exports = {
         allStyles[i].skus = skusObject;
       }
       returnObj.results = allStyles;
-      callback(null, returnObj);
       client.release();
+      callback(null, returnObj);
     } catch (err) {
       console.log(err);
+      client.release();
       callback(err, null);
     }
   },
@@ -79,10 +82,11 @@ module.exports = {
       let ids = idObjects.map((idObject) => {
         return idObject.related_product_id;
       });
-      callback(null, ids);
       client.release();
+      callback(null, ids);
     } catch (err) {
       console.log(err);
+      client.release();
       callback(err, null);
     }
   },
