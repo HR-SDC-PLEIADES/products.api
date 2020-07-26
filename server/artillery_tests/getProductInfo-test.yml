@@ -7,4 +7,4 @@ scenarios:
   - name: 'Product Info Requests'
     flow:
       - get:
-          url: '/products/{{$randomNumber(1, 1000011)}}'
+          url: '/products/{{$randomNumber(1, 940309)}}'

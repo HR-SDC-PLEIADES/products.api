@@ -4,7 +4,7 @@ const cluster = require('cluster');
 const bodyParser = require('body-parser');
 const router = require('./router');
 const cors = require('cors');
-const PORT = 3030;
+const PORT = process.env.PORT || 3030;
 
 const clusterWorkerSize = os.cpus().length;
 
