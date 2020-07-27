@@ -18,8 +18,8 @@ router.get(
 
 // Loader.io verification
 router.get('/loaderio-ce3d8e174b667bbfe7aa6999a2d325c4', function (req, res) {
-  const file = '../loaderio-ce3d8e174b667bbfe7aa6999a2d325c4.txt';
-  res.sendFile(file, 'loaderio-ce3d8e174b667bbfe7aa6999a2d325c4.txt');
+  const file = `${__dirname}/../loaderio-ce3d8e174b667bbfe7aa6999a2d325c4.txt`;
+  res.download(file);
 });
 
 module.exports = router;
