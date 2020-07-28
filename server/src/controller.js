@@ -1,4 +1,7 @@
 const models = require('./model');
+const redis = require('redis');
+const PORT_REDIS = process.env.PORT || 6379;
+const redis_client = redis.createClient(PORT_REDIS);
 
 module.exports = {
   getAllProducts: function (req, res) {
@@ -8,6 +11,7 @@ module.exports = {
       if (err) {
         res.sendStatus(500);
       } else {
+        redis_client.setex('0', 1200, JSON.stringify(allProducts));
         res.status(200).json(allProducts);
       }
     });
@@ -19,6 +23,7 @@ module.exports = {
       if (err) {
         res.sendStatus(500);
       } else {
+        redis_client.setex(productId, 1200, JSON.stringify(productInfo));
         res.status(200).json(productInfo);
       }
     });
@@ -30,6 +35,7 @@ module.exports = {
       if (err) {
         res.sendStatus(500);
       } else {
+        redis_client.setex(productId, 1200, JSON.stringify(styleObj));
         res.status(200).json(styleObj);
       }
     });
@@ -41,6 +47,7 @@ module.exports = {
       if (err) {
         res.sendStatus(500);
       } else {
+        redis_client.setex(productId, 1200, JSON.stringify(ids));
         res.status(200).json(ids);
       }
     });

@@ -1,18 +1,28 @@
 const router = require('express').Router();
 const productController = require('./controller');
+const { checkCache } = require('./middleware');
 
-// [GET] Retrieves the list of products
-router.get('/products/list', productController.getAllProducts);
+// Returns list of products
+router.get('/products/list', checkCache, productController.getAllProducts);
 
-// [GET] Returns all product level information for a specified product id
-router.get('/products/:product_id', productController.getProductInfo);
+// Returns all product information for specified product id
+router.get(
+  '/products/:product_id',
+  checkCache,
+  productController.getProductInfo
+);
 
-// [GET] Returns all styles available for the given product
-router.get('/products/:product_id/styles', productController.getProductStyles);
+// Returns all styles available for given product
+router.get(
+  '/products/:product_id/styles',
+  checkCache,
+  productController.getProductStyles
+);
 
-// [GET] Returns the id's of products related to the product specified
+// Returns id's of products related to product specified
 router.get(
   '/products/:product_id/related',
+  checkCache,
   productController.getRelatedProducts
 );
 
