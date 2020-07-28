@@ -23,7 +23,8 @@ module.exports = {
       if (err) {
         res.sendStatus(500);
       } else {
-        redis_client.setex(productId, 1200, JSON.stringify(productInfo));
+        let key = 'product ' + productId;
+        redis_client.setex(key, 1200, JSON.stringify(productInfo));
         res.status(200).json(productInfo);
       }
     });
@@ -35,7 +36,8 @@ module.exports = {
       if (err) {
         res.sendStatus(500);
       } else {
-        redis_client.setex(productId, 1200, JSON.stringify(styleObj));
+        let key = 'styles ' + productId;
+        redis_client.setex(key, 1200, JSON.stringify(styleObj));
         res.status(200).json(styleObj);
       }
     });
@@ -47,7 +49,8 @@ module.exports = {
       if (err) {
         res.sendStatus(500);
       } else {
-        redis_client.setex(productId, 1200, JSON.stringify(ids));
+        let key = 'related ' + productId;
+        redis_client.setex(key, 1200, JSON.stringify(ids));
         res.status(200).json(ids);
       }
     });
